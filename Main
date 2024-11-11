@@ -1,0 +1,59 @@
+package agendacontatos;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.GregorianCalendar;
+
+public class Main {
+
+    public void mostraDados(ContatoBasico obj) {
+        System.out.println(obj.getDados());
+        if (obj instanceof Contato contato)
+            System.out.println(contato.getIdade());
+    }
+
+    public void mostraDadosSwing(ContatoBasico obj) {
+        JTextArea textArea = new JTextArea();
+        textArea.setText(obj.getDados());
+        if (obj instanceof Contato contato) {
+            textArea.append("Idade: " + contato.getIdade() + "\n");
+        }
+        
+        JFrame frame = new JFrame("Dados do Contato");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.add(new JScrollPane(textArea), BorderLayout.CENTER);
+        
+        JButton closeButton = new JButton("Fechar");
+        closeButton.addActionListener(e -> frame.dispose());
+        frame.add(closeButton, BorderLayout.SOUTH);
+        
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        Agenda a = new Agenda();
+        
+        Contato cb = new Contato("Lucas", new GregorianCalendar(2002, 11, 15));
+        cb.setTelefone(new Telefone("3981-0101", "Telefone residencial"));
+        cb.setTelefone(new Telefone("99902-0299", "Telefone celular"));
+        a.inserir(cb);
+        
+        Contato[] obj = a.buscarGeral("Lucas");
+
+        if (obj != null && obj.length > 0) {
+            Main mainInstance = new Main();
+            
+            for (Contato contato : obj) {
+                mainInstance.mostraDados(contato);
+            }
+            
+            for (Contato contato : obj) {
+                mainInstance.mostraDadosSwing(contato);
+            }
+        } else {
+            System.out.println("Contato não encontrado!");
+        }
+    }
+}
