@@ -1,0 +1,34 @@
+package agendacontatos;
+import java.util.ArrayList;
+
+public class Agenda {
+    private ArrayList<ContatoBasico> contatos = new ArrayList<>();
+
+    public void inserir(ContatoBasico c) {
+        contatos.add(c);
+    }
+
+    public ContatoBasico buscar(String nome) {
+        for (int i = 0; i < contatos.size(); i++) {
+            ContatoBasico c = contatos.get(i);
+            if (c.getNome().equalsIgnoreCase(nome))
+                return c;
+        }
+        return null;
+    }
+
+    public Contato[] buscarGeral(String palavraChave) {
+        ArrayList<ContatoBasico> todos = new ArrayList<>();
+        for (int i = 0; i < contatos.size(); i++) {
+            ContatoBasico c = contatos.get(i);
+            if (c.getDados().contains(palavraChave))
+                todos.add(c);
+        }
+        Contato[] vet = new Contato[todos.size()];
+        return todos.toArray(vet);
+    }
+
+    public int getQuantidade() {
+        return contatos.size();
+    }
+}
